@@ -62,3 +62,8 @@ for (i=0; i < keysArray.length; i++) {
             }
     }) 
 }
+/* KNOWN BUGS:
+    Apretando igual muchas veces despues de una operacion hacen fallar el programa. No pude identificar todavia porque muestra los numeros que muestra.
+    No se pueden accionar los numeros u operaciones con el teclado
+    No se pueden introducir numeros decimales por ahora, sin embargo la calculadora si da como resultado numeros decimales si es necesario.
+*/
