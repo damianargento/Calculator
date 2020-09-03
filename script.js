@@ -3,6 +3,7 @@ const inputArea = document.querySelector('#inputArea input');
 const operatorArea = document.querySelector('#operation')
 let operation = "";
 let firstValue = 0;
+let secondValue = 0;
 let justFinished = false;
 // la funcion calcula el resultado a partir de tener un numero A y otro B y un operador, dependiendo de el operador se hace una operacion determinada
 const calculate = function(numA,numB,operator) {
@@ -34,20 +35,24 @@ for (i=0; i < keysArray.length; i++) {
     keysArray[i].addEventListener('click' || 'keyPressed', function(event) {
 // Si es un numero (no una operacion o igual) 
         if (!isNaN(parseInt(event.target.id))) {
-
+            // Tengo que fijarme si la ultima tecla que se apreto fue igual, de esta forma puedo hacer operaciones como (((2+2)+2)+2)
             if (justFinished === true) {
                 cleanInput()
                 justFinished = false
             }
     //Se concatenan los valores hasta que se presiona un operador
-            console.log(justFinished)
             inputArea.value += event.target.id;
         } 
-        // Si se preciona igual se llama a la funcion que realiza el calculo
+        // Si se presiona igual se llama a la funcion que realiza el calculo
         else if (event.target.id == "=") {
-            calculate(firstValue,parseFloat(inputArea.value),operation)
+            if (justFinished === false){
+            secondValue = parseFloat(inputArea.value);
+            calculate(firstValue,secondValue,operation)
             operatorArea.innerText = ""
-            justFinished = true
+            justFinished = true}
+             else {
+                 calculate(parseFloat(inputArea.value),secondValue,operation)
+             }
         }
         // Si se presiona el operador el numero del input se guarda en la variable firstValue para luego ser usada en calculate
         else {
@@ -63,7 +68,7 @@ for (i=0; i < keysArray.length; i++) {
     }) 
 }
 /* KNOWN BUGS:
-    Apretando igual muchas veces despues de una operacion hacen fallar el programa. No pude identificar todavia porque muestra los numeros que muestra.
-    No se pueden accionar los numeros u operaciones con el teclado
-    No se pueden introducir numeros decimales por ahora, sin embargo la calculadora si da como resultado numeros decimales si es necesario.
+    No se pueden accionar los numeros u operaciones con el teclado (se pueden teclear en el input o seleccionandolos con tab y clickeando con enter o espaco)
+    Se pueden introducir numeros decimales por el input con el teclado pero no hay tecla de decimales. 
+    Por alguna razon nunca pude lograr parsear el punto y concatenarlo al string del input
 */
